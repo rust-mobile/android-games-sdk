@@ -1298,7 +1298,12 @@ extern "C" int GameActivity_register(JNIEnv* env) {
     return jniRegisterNativeMethods(env, kGameActivityPathName, g_methods, NELEM(g_methods));
 }
 
-extern "C" JNIEXPORT jlong JNICALL Java_com_google_androidgamesdk_GameActivity_initializeNativeCode(
+// XXX: This symbol is renamed with a _C suffix and then re-exported from
+// Rust because Rust/Cargo don't give us a way to directly export symbols
+// from C/C++ code: https://github.com/rust-lang/rfcs/issues/2771
+//
+extern "C" JNIEXPORT jlong JNICALL
+Java_com_google_androidgamesdk_GameActivity_initializeNativeCode_C(
         JNIEnv* env, jobject javaGameActivity, jstring internalDataDir, jstring obbDir,
         jstring externalDataDir, jobject jAssetMgr, jbyteArray savedState, jobject javaConfig) {
     GameActivity_register(env);

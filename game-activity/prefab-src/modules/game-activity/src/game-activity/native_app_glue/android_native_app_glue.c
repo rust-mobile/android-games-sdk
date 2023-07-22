@@ -225,7 +225,7 @@ static void* android_app_entry(void* param) {
     pthread_cond_broadcast(&android_app->cond);
     pthread_mutex_unlock(&android_app->mutex);
 
-    android_main(android_app);
+    _rust_glue_entry(android_app);
 
     android_app_destroy(android_app);
     return NULL;
@@ -714,8 +714,11 @@ static bool onEditorAction(GameActivity* activity, int action) {
     return true;
 }
 
+// XXX: This symbol is renamed with a _C suffix so we can implement
+// `GameActivity_onCreate` as a wrapper in Rust that does some additional setup
+// before calling this function,
 JNIEXPORT
-void GameActivity_onCreate(GameActivity* activity, void* savedState, size_t savedStateSize) {
+void GameActivity_onCreate_C(GameActivity* activity, void* savedState, size_t savedStateSize) {
     LOGV("Creating: %p", activity);
     activity->callbacks->onDestroy = onDestroy;
     activity->callbacks->onStart = onStart;
