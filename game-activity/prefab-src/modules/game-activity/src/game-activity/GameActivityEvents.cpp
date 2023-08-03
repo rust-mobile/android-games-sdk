@@ -246,7 +246,7 @@ static struct {
     jmethodID getRepeatCount;
     jmethodID getKeyCode;
     jmethodID getScanCode;
-    jmethodID getUnicodeChar;
+    // jmethodID getUnicodeChar;
 } gKeyEventClassInfo;
 
 static void initKeyEvents(JNIEnv* env) {
@@ -266,33 +266,36 @@ static void initKeyEvents(JNIEnv* env) {
     gKeyEventClassInfo.getRepeatCount = env->GetMethodID(keyEventClass, "getRepeatCount", "()I");
     gKeyEventClassInfo.getKeyCode = env->GetMethodID(keyEventClass, "getKeyCode", "()I");
     gKeyEventClassInfo.getScanCode = env->GetMethodID(keyEventClass, "getScanCode", "()I");
-    gKeyEventClassInfo.getUnicodeChar = env->GetMethodID(keyEventClass, "getUnicodeChar", "()I");
+    // gKeyEventClassInfo.getUnicodeChar =
+    // env->GetMethodID(keyEventClass, "getUnicodeChar", "()I");
 }
 
 extern "C" void GameActivityKeyEvent_fromJava(JNIEnv* env, jobject keyEvent,
                                               GameActivityKeyEvent* out_event) {
-    *out_event = {/*deviceId=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getDeviceId),
-                  /*source=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getSource),
-                  /*action=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getAction),
-                  // TODO: introduce a millisecondsToNanoseconds helper:
-                  /*eventTime=*/
-                  env->CallLongMethod(keyEvent, gKeyEventClassInfo.getEventTime) * 1000000,
-                  /*downTime=*/
-                  env->CallLongMethod(keyEvent, gKeyEventClassInfo.getDownTime) * 1000000,
-                  /*flags=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getFlags),
-                  /*metaState=*/
-                  env->CallIntMethod(keyEvent, gKeyEventClassInfo.getMetaState),
-                  /*modifiers=*/gKeyEventClassInfo.getModifiers
-                          ? env->CallIntMethod(keyEvent, gKeyEventClassInfo.getModifiers)
-                          : 0,
-                  /*repeatCount=*/
-                  env->CallIntMethod(keyEvent, gKeyEventClassInfo.getRepeatCount),
-                  /*keyCode=*/
-                  env->CallIntMethod(keyEvent, gKeyEventClassInfo.getKeyCode),
-                  /*scanCode=*/
-                  env->CallIntMethod(keyEvent, gKeyEventClassInfo.getScanCode),
-                  /*unicodeChar=*/
-                  env->CallIntMethod(keyEvent, gKeyEventClassInfo.getUnicodeChar)};
+    *out_event = {
+            /*deviceId=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getDeviceId),
+            /*source=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getSource),
+            /*action=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getAction),
+            // TODO: introduce a millisecondsToNanoseconds helper:
+            /*eventTime=*/
+            env->CallLongMethod(keyEvent, gKeyEventClassInfo.getEventTime) * 1000000,
+            /*downTime=*/
+            env->CallLongMethod(keyEvent, gKeyEventClassInfo.getDownTime) * 1000000,
+            /*flags=*/env->CallIntMethod(keyEvent, gKeyEventClassInfo.getFlags),
+            /*metaState=*/
+            env->CallIntMethod(keyEvent, gKeyEventClassInfo.getMetaState),
+            /*modifiers=*/gKeyEventClassInfo.getModifiers
+                    ? env->CallIntMethod(keyEvent, gKeyEventClassInfo.getModifiers)
+                    : 0,
+            /*repeatCount=*/
+            env->CallIntMethod(keyEvent, gKeyEventClassInfo.getRepeatCount),
+            /*keyCode=*/
+            env->CallIntMethod(keyEvent, gKeyEventClassInfo.getKeyCode),
+            /*scanCode=*/
+            env->CallIntMethod(keyEvent, gKeyEventClassInfo.getScanCode)
+            /*unicodeChar=*/
+            // env->CallIntMethod(keyEvent, gKeyEventClassInfo.getUnicodeChar)
+    };
 }
 
 extern "C" void GameActivityEventsInit(JNIEnv* env) {
