@@ -568,7 +568,7 @@ static bool onTouchEvent(GameActivity* activity, const GameActivityMotionEvent* 
     ++inputBuffer->motionEventsCount;
     notifyInput(android_app);
 
-    android_app_write_cmd(android_app, APP_CMD_TOUCH_EVENT);
+    // android_app_write_cmd(android_app, APP_CMD_TOUCH_EVENT);
     pthread_mutex_unlock(&android_app->mutex);
     return true;
 }
@@ -652,7 +652,7 @@ static bool onKey(GameActivity* activity, const GameActivityKeyEvent* event) {
     ++inputBuffer->keyEventsCount;
     notifyInput(android_app);
 
-    android_app_write_cmd(android_app, APP_CMD_KEY_EVENT);
+    // android_app_write_cmd(android_app, APP_CMD_KEY_EVENT);
     pthread_mutex_unlock(&android_app->mutex);
     return true;
 }

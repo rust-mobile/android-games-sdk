@@ -446,12 +446,12 @@ enum NativeAppGlueAppCmd : int8_t {
     /**
      * Command from main thread: a keyboard event has been received.
      */
-    APP_CMD_KEY_EVENT,
+    // APP_CMD_KEY_EVENT,
 
     /**
      * Command from main thread: a touch event has been received.
      */
-    APP_CMD_TOUCH_EVENT,
+    // APP_CMD_TOUCH_EVENT,
 
 };
 
