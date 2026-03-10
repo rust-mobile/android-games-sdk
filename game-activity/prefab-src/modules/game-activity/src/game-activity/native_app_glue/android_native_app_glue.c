@@ -279,6 +279,13 @@ static struct android_app* android_app_create(GameActivity* activity, void* save
         memcpy(android_app->savedState, savedState, savedStateSize);
     }
 
+    android_app->mainLooper = ALooper_forThread();
+    if (android_app->mainLooper == NULL) {
+        LOGE("Failed to get main looper");
+        return NULL;
+    }
+    ALooper_acquire(android_app->mainLooper);
+
     int msgpipe[2];
     if (pipe(msgpipe)) {
         LOGE("could not create pipe: %s", strerror(errno));
@@ -394,8 +401,14 @@ static void android_app_free(struct android_app* android_app) {
 
     close(android_app->msgread);
     close(android_app->msgwrite);
+
     pthread_cond_destroy(&android_app->cond);
     pthread_mutex_destroy(&android_app->mutex);
+
+    if (android_app->mainLooper != NULL) {
+        ALooper_release(android_app->mainLooper);
+    }
+
     free(android_app);
 }
 
