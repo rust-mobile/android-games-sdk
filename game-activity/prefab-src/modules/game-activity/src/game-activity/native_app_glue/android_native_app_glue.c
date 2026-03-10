@@ -224,6 +224,8 @@ static void* android_app_entry(void* param) {
   android_app->cmdPollSource.app = android_app;
   android_app->cmdPollSource.process = process_cmd;
 
+  _rust_glue_on_create_hook(android_app);
+
   ALooper* looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
   ALooper_addFd(looper, android_app->msgread, LOOPER_ID_MAIN,
                 ALOOPER_EVENT_INPUT, NULL, &android_app->cmdPollSource);
