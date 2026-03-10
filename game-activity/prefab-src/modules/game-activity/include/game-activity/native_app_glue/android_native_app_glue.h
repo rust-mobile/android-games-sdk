@@ -201,6 +201,9 @@ struct android_app {
   /** The ALooper associated with the app's thread. */
   ALooper* looper;
 
+  /** The ALooper associated with the app's Java main/UI thread. */
+  ALooper* mainLooper;
+
   /** When non-NULL, this is the window surface that the app can draw in. */
   ANativeWindow* window;
 
